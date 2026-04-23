@@ -1,0 +1,23 @@
+{
+  "name": "rentease",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pragati268/RentEase-Furniture-and-Appliance-Rental-platform.git"
+  },
+  "author": "Pragati Arora",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pragati268/RentEase-Furniture-and-Appliance-Rental-platform/issues"
+  },
+  "homepage": "https://github.com/pragati268/RentEase-Furniture-and-Appliance-Rental-platform#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.5.0"
+  }
+}

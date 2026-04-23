@@ -17,7 +17,9 @@
   "homepage": "https://github.com/pragati268/RentEase-Furniture-and-Appliance-Rental-platform#readme",
   "description": "",
   "dependencies": {
+    "@tailwindcss/vite": "^4.2.4",
     "express": "^5.2.1",
-    "mongoose": "^9.5.0"
+    "mongoose": "^9.5.0",
+    "tailwindcss": "^4.2.4"
   }
 }

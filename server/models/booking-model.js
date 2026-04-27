@@ -40,14 +40,14 @@ const bookingSchema = new mongoose.Schema({
     default: "pending",
   },
 
-  deliveryAddress: {
-    fullName: { type: String, required: true },
-    phone: { type: Number, required: true },
-    street: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String },
-    pincode: { type: String, required: true },
-  },
+  // deliveryAddress: {
+  //   fullName: { type: String, required: true },
+  //   phone: { type: Number, required: true },
+  //   street: { type: String, required: true },
+  //   city: { type: String, required: true },
+  //   state: { type: String },
+  //   pincode: { type: String, required: true },
+  // },
 
   returnedAt: {
     type: Date,

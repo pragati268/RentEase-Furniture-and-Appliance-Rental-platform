@@ -1,73 +1,73 @@
-// const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-// const productSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//   },
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
 
-//   description: {
-//     type: String,
-//     required: true,
-//   },
+  description: {
+    type: String,
+  },
 
-//   price: {
-//     type: Number,
-//     required: true,
-//   },
+  price: {
+    type: Number,
+    required: true,
+  },
 
-//   image: {
-//     url: String,
-//     required: true,
-//   },
+  image: {
+    type: String,
+    url: String,
+    // required: true,
+  },
 
-//   pricePerDay: {
-//     type: Number,
-//     required: true,
-//   },
+  pricePerDay: {
+    type: Number,
+    required: true,
+  },
 
-//   pricePerMonth: {
-//     type: Number,
-//     required: true,
-//   },
+  pricePerMonth: {
+    type: Number,
+    required: true,
+  },
 
-//   securityDeposit: {
-//     type: Number,
-//     required: true
-//   },
+  securityDeposit: {
+    type: Number,
+    required: true
+  },
 
-//   category: {
-//     type: String,
-//     enum: ["furniture", "appliances"],
-//     required: true,
-//   },
+  category: {
+    type: String,
+    enum: ["furniture", "appliance"],
+    required: true,
+  },
 
-//   isAvailable: {
-//     type: Boolean,
-//     default: true,
-//   },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
 
-//   stock: {
-//     type: Number,
-//     required: true,
-//   },
+  stock: {
+    type: Number,
+    required: true,
+  },
 
-//   city: {
-//     type: String,
-//     required: true,
-//   },   
+  city: {
+    type: String,
+    required: true,
+  },   
 
-//   ratings: {
-//     type: Number,
-//     default: 0,
-//   },
+  ratings: {
+    type: Number,
+    default: 0,
+  },
 
-//   numOfReviews: {
-//     type: Number,
-//     default: 0,
-//   }
-// }, { timestamps: true });
+  numOfReviews: {
+    type: Number,
+    default: 0,
+  }
+}, { timestamps: true });
 
-// const Product = mongoose.model("Product", productSchema);
+const productModel = mongoose.model("Product", productSchema);
 
-// module.exports = Product;
+export default productModel;

@@ -17,8 +17,7 @@ const productSchema = new mongoose.Schema({
 
   image: {
     type: String,
-    url: String,
-    // required: true,
+    required: true,
   },
 
   pricePerDay: {
@@ -38,8 +37,18 @@ const productSchema = new mongoose.Schema({
 
   category: {
     type: String,
-    enum: ["furniture", "appliance"],
+    enum: ["Furniture", "Appliance"],
     required: true,
+  },
+
+  subCategory: {
+    type: String,
+    required: true,
+  },
+
+  featured: {
+    type: Boolean,
+    default: false,
   },
 
   isAvailable: {
@@ -59,7 +68,7 @@ const productSchema = new mongoose.Schema({
 
   ratings: {
     type: Number,
-    default: 0,
+    default: 0.0,
   },
 
   numOfReviews: {

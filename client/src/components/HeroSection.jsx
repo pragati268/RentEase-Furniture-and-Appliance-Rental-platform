@@ -4,17 +4,19 @@ import yellowSofa from "../assets/images/yellow-sofa.jpg";
 
 const Home = () => {
   return (
-    <div className="h-[90vh] w-full flex flex-start px-25 gap-20 justify-center bg-[#3B5D4F] text-white">
-      <div className="flex w-[50%] px-10 py-28 flex-col gap-6">
-        <h1 className="font-semibold tracking-tighter leading-tight text-5xl">
+    <div id="home" className="pt-20 md:pt-24 w-full flex flex-col items-center lg:items-start lg:flex-row justify-between lg:min-h-[95vh] px-6 md:px-10 lg:px-28 lg:py-15 py-10 bg-[#3B5D4F] text-white overflow-hidden">
+      <div className="w-full lg:w-[50%] text-center lg:text-left lg:py-15 mb-2 md:mb-6 lg:mb-0">
+        <h1 className="font-semibold tracking-tighter leading-tight text-4xl md:text-5xl lg:text-6xl">
           Designed to Elevate <br /> Everyday Living.
         </h1>
-        <p className="text-lg text-gray-200 max-w-lg">
+        <p className="text-sm md:text-base lg:text-lg text-gray-200 max-w-lg mt-5 mx-auto lg:mx-0">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti,
           odit omnis molestiae quibusdam distinctio iure animi labore rerum
           fugit earum blanditiis nulla soluta qui maiores!
         </p>
-        <div className="flex gap-5 mt-2">
+
+        {/* buttons */}
+        <div className="flex flex-col md:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mt-6 w-full">
           <button className="bg-[#eec50e] text-black w-40 px-2 py-3 rounded-full text-md font-medium hover:bg-[#e1bc16]">
             Shop Now
           </button>
@@ -24,7 +26,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="w-[50%] py-15 px-10 relative">
+      <div className="w-full lg:w-[50%] py-10 lg:py-0 flex justify-center relative">
         {/* Background Card */}
         <motion.div
           initial={{ opacity: 0, x: -120 }}
@@ -33,7 +35,7 @@ const Home = () => {
             duration: 1.4,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="bg-[#2b4238] h-110 w-105 absolute rounded-lg"
+          className="bg-[#2b4238] w-65 h-75 md:w-85 md:h-100 lg:w-105 lg:h-125 absolute rounded-2xl"
         ></motion.div>
 
         {/* Front Image Card */}
@@ -49,12 +51,12 @@ const Home = () => {
             scale: 1.02,
             transition: { duration: 0.4 },
           }}
-          className="bg-[#284a3c] h-110 w-105 relative left-12 top-12 rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
+          className="bg-[#284a3c]  w-65 h-75 md:w-85 md:h-100 lg:w-105 lg:h-125 relative left-6 md:left-10 lg:left-12 top-6 md:top-10 lg:top-10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
         >
           <img
             src={yellowSofa}
             alt="Yellow Sofa"
-            className="h-full w-full object-cover rounded-lg"
+            className="h-full w-full object-cover rounded-2xl"
           />
         </motion.div>
       </div>

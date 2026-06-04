@@ -5,4 +5,12 @@ const API = axios.create({
     withCredentials: true, // Include cookies in requests
 });
 
+export const addToWishlist = async (productId) => {
+  return await API.post(`/wishlist/add/${productId}`);
+};
+
+export const removeFromWishlist = async (productId) => {
+  return await API.delete(`/wishlist/remove/${productId}`);
+};
+
 export default API;

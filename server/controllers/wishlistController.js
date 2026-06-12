@@ -33,8 +33,14 @@ export const addToWishlist = async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    user.wishlist.push(productId);
-    await user.save();
+    const alreadyExists = user.wishlist.some(
+      (id) => id.toString() === productId,
+    );
+
+    if (!alreadyExists) {
+      user.wishlist.push(productId);
+      await user.save();
+    }
 
     res.status(200).json({ message: "Product added to wishlist" });
   } catch (err) {
@@ -53,12 +59,12 @@ export const removeFromWishlist = async (req, res) => {
     }
 
     user.wishlist.pull(productId);
-    await user.save();  
+    await user.save();
 
     res.status(200).json({ message: "Product removed from wishlist" });
-    } catch (err) { 
+    res.render("wishlist", { wishlist: user.wishlist });
+  } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
-  } 
+  }
 };
-

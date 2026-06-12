@@ -30,7 +30,7 @@ const bookingSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ["pending", "confirmed", "cancelled"],
+    enum: ["pending", "confirmed", "active", "completed", "cancelled"],
     default: "pending",
   },
 
@@ -40,14 +40,13 @@ const bookingSchema = new mongoose.Schema({
     default: "pending",
   },
 
-  // deliveryAddress: {
-  //   fullName: { type: String, required: true },
-  //   phone: { type: Number, required: true },
-  //   street: { type: String, required: true },
-  //   city: { type: String, required: true },
-  //   state: { type: String },
-  //   pincode: { type: String, required: true },
-  // },
+  deliveryAddress: {
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    pincode: { type: String, required: true },
+  },
 
   returnedAt: {
     type: Date,

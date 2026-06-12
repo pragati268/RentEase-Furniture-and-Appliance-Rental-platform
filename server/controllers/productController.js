@@ -12,9 +12,11 @@ export const createProduct = async (req, res) => {
       pricePerMonth,
       securityDeposit,
       category,
-      image,
+      subCategory,
+      images,
       stock,
       city,
+      isAvailable,
       numOfReviews,
       ratings,
     } = req.body;
@@ -26,9 +28,11 @@ export const createProduct = async (req, res) => {
       pricePerMonth,
       securityDeposit,
       category,
-      image,
+      subCategory,
+      images,
       stock,
       city,
+      isAvailable,
       numOfReviews,
       ratings,
     });
@@ -128,6 +132,17 @@ export const deleteProduct = async (req, res) => {
     }
     res.status(200).send("Product deleted successfully");
   } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+};
+
+export const deleteAllProducts = async (req, res) => {
+  try {
+    await productModel.deleteMany({});
+    res.status(200).send("All products deleted successfully");
+  }
+  catch (err) {
     console.log(err);
     res.status(500).send(err.message);
   }

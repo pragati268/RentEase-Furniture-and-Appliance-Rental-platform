@@ -35,7 +35,7 @@ export const registerUser = async (req, res) => {
           let user = await userModel.create({
             fullname,
             email,
-            password: hash,
+            password: hash
           });
 
           let token = generateToken(user);
@@ -81,6 +81,7 @@ export const logoutUser = async (req, res) => {
   try {
     res.clearCookie("token");
     res.status(200).send("User logged out successfully");
+    res.render("home");
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
@@ -105,7 +106,7 @@ export const registerAdmin = async (req, res) => {
     const hash = await bcrypt.hash(password, salt);
 
     const admin = await userModel.create({
-      fullname,
+      fullname: fullname,
       email,
       password: hash,
       role: "admin",
@@ -120,4 +121,23 @@ export const registerAdmin = async (req, res) => {
   }
 };
 
-export default { registerUser, loginUser, logoutUser, registerAdmin };
+export const getMe = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.status(200).json({
+      id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      role: user.role,
+      addresses: user.addresses,
+      createdAt: user.createdAt,
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+export default { registerUser, loginUser, logoutUser, registerAdmin, getMe };

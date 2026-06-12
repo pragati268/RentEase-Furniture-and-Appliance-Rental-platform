@@ -6,7 +6,7 @@ import { calculateDays, isDateRangeValid } from "../utils/dateUtility.js";
 
 export const createBooking = async (req, res) => {
   try {
-    const { productId, startDate, endDate } = req.body;
+    const { productId, startDate, endDate, deliveryAddress } = req.body;
 
     if (!productId || !startDate || !endDate) {
       return res.status(400).send("All fields are required");
@@ -48,13 +48,19 @@ export const createBooking = async (req, res) => {
       totalPrice = days * product.pricePerDay; //pro-rate daily price
     }
 
-    const booking = await bookingModel.create({
+    const bookingData = {
       user: req.user._id,
       product: productId,
       startDate,
       endDate,
       totalPrice,
-    });
+    };
+
+    if (deliveryAddress) {
+      bookingData.deliveryAddress = deliveryAddress;
+    }
+
+    const booking = await bookingModel.create(bookingData);
 
     res.status(201).json({
       message: "Booking created successfully",

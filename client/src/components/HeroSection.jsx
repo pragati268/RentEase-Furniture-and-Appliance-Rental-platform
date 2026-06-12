@@ -4,25 +4,31 @@ import yellowSofa from "../assets/images/yellow-sofa.jpg";
 
 const Home = () => {
   return (
-    <div id="home" className="pt-20 md:pt-24 w-full flex flex-col items-center lg:items-start lg:flex-row justify-between lg:min-h-[95vh] px-6 md:px-10 lg:px-28 lg:py-15 py-10 bg-[#3B5D4F] text-white overflow-hidden">
+    <div
+      id="home"
+      className="pt-20 md:pt-24 w-full flex flex-col items-center lg:items-start lg:flex-row justify-between lg:min-h-[95vh] px-4 md:px-8 lg:px-20 lg:py-15 py-10 bg-[#3B5D4F] text-white overflow-hidden"
+    >
       <div className="w-full lg:w-[50%] text-center lg:text-left lg:py-15 mb-2 md:mb-6 lg:mb-0">
         <h1 className="font-semibold tracking-tighter leading-tight text-4xl md:text-5xl lg:text-6xl">
           Designed to Elevate <br /> Everyday Living.
         </h1>
         <p className="text-sm md:text-base lg:text-lg text-gray-200 max-w-lg mt-5 mx-auto lg:mx-0">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corrupti,
-          odit omnis molestiae quibusdam distinctio iure animi labore rerum
-          fugit earum blanditiis nulla soluta qui maiores!
+          Premium furniture and appliances on rent, delivered to your doorstep
+          with flexible plans and zero ownership hassles.
         </p>
 
         {/* buttons */}
         <div className="flex flex-col md:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mt-6 w-full">
-          <button className="bg-[#eec50e] text-black w-40 px-2 py-3 rounded-full text-md font-medium hover:bg-[#e1bc16]">
+          <a href="#featured">
+            <button className="bg-[#eec50e] text-black w-40 px-2 py-3 rounded-full text-md font-medium hover:bg-[#e1bc16]">
             Shop Now
           </button>
-          <button className="bg-transparent border border-white w-40 px-2 py-3 rounded-full text-md font-medium hover:bg-white/20">
-            Explore
-          </button>
+          </a>
+          <a href="#categories">
+            <button className="bg-transparent border border-white w-40 px-2 py-3 rounded-full text-md font-medium hover:bg-white/20">
+              Explore
+            </button>
+          </a>
         </div>
       </div>
 

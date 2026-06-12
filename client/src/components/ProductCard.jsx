@@ -1,29 +1,42 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { addToWishlist, removeFromWishlist } from "../services/api.js";
+import { addToCart } from "../services/cart.js";
+import { toast } from "react-toastify";
 
-const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
+const ProductCard = ({
+  product,
+  subCategory,
+  wishlistItems = [],
+  setWishlistItems,
+}) => {
+  const navigate = useNavigate();
 
-  const isWishlisted = wishlistItems.some((item) => item._id === product._id);
+  const isWishlisted = wishlistItems?.some((item) => item._id === product._id);
 
   const handleWishlist = async (e) => {
-    e.preventDefault(); // Prevent navigation to product detail page
-
-    console.log("Clicked Product:", product._id);
+    e.preventDefault();
 
     try {
       if (isWishlisted) {
         await removeFromWishlist(product._id);
-        console.log("Removed from wishlist");
+        toast.success("Removed from wishlist");
+        setWishlistItems((prev) => prev.filter((item) => item._id !== product._id));
       } else {
         await addToWishlist(product._id);
-        console.log("Added to wishlist");
+        toast.success("Added to wishlist");
+        setWishlistItems((prev) => [...prev, product]);
       }
     } catch (error) {
-      console.log(error);
+      if (error.response?.status === 401) {
+        toast.info("Please login first to use wishlist");
+        return;
+      }
+
+      toast.error("Something went wrong");
     }
   };
 
@@ -37,9 +50,9 @@ const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
       <div className=" relative overflow-hiddenbg-white border border-gray-200 rounded-lg">
         <img
           src={
-            product.image
-              ? product.image
-              : "https://via.placeholder.com/300x200?text=No+Image"
+            product.images?.[0] ||
+            product.image ||
+            "https://via.placeholder.com/300x200?text=No+Image"
           }
           alt={product.name}
           className="w-full h-74 rounded-lg object-cover object-center group"
@@ -103,6 +116,10 @@ const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
       >
         {/* Quick View Button */}
         <button
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(`/product/${product._id}`);
+          }}
           className="
           w-full
           sm:w-auto
@@ -113,8 +130,8 @@ const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
           lg:px-4
           lg:text-md
 
-          px-4
-          py-2
+          px-5
+          py-3
           rounded-full
           border
         border-[#345246]
@@ -130,6 +147,11 @@ const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
 
         {/* Add to Cart Button */}
         <button
+          onClick={(e) => {
+            e.preventDefault();
+            addToCart(product);
+            toast.success("Product added to cart!");
+          }}
           className="
           w-full
           sm:w-auto
@@ -140,8 +162,8 @@ const ProductCard = ({ product, subCategory, wishlistItems = [] }) => {
           lg:px-4
           lg:text-md
 
-          px-4
-          py-2
+          px-5
+          py-3
           rounded-full
         bg-[#345246]
         text-white

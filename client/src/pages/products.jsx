@@ -1,15 +1,55 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import API from "../services/api.js";
 import ProductCard from "../components/ProductCard.jsx";
 import Navbar from "../components/Navbar.jsx";
+import Breadcrumb from "../components/Breadcrumb.jsx";
+import { toast } from "react-toastify";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [availabilityFilter, setAvailabilityFilter] = useState("inStock");
+  const [budgetFilter, setBudgetFilter] = useState(null);
 
   const category = searchParams.get("category");
+
+  const filteredProducts = useMemo(() => {
+    let result = products;
+
+    if (availabilityFilter === "inStock") result = result.filter(p => Number(p.stock) > 0);
+    else if (availabilityFilter === "outOfStock") result = result.filter(p => Number(p.stock) === 0);
+
+    if (budgetFilter) {
+      result = result.filter(p => {
+        const price = Number(p.pricePerMonth);
+        switch (budgetFilter) {
+          case "0-500": return price >= 0 && price <= 500;
+          case "501-1000": return price >= 501 && price <= 1000;
+          case "1001-5000": return price >= 1001 && price <= 5000;
+          case "5000+": return price > 5000;
+          default: return true;
+        }
+      });
+    }
+
+    return result;
+  }, [products, availabilityFilter, budgetFilter]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await API.get("/wishlist");
+        setWishlistItems(response.data);
+      } catch (error) {
+        if (error.response?.status === 401) return;
+      }
+    };
+
+    fetchWishlist();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,6 +106,9 @@ const Products = () => {
     <div className="min-h-screen bg-[#F0F2F1] px-5 md:px-10 lg:px-10 py-22 lg:py-24">
       <Navbar compact={true} />
 
+      {category && (
+        <Breadcrumb items={[{ label: category }]} />
+      )}
       <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight text-[#345246] mb-3">
         {category ? `${category} Rentals` : "All Products"}
       </h1>
@@ -105,12 +148,30 @@ const Products = () => {
 
               <div className="space-y-3">
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" className="accent-[#345246]" />
+                  <input
+                    type="checkbox"
+                    className="accent-[#345246]"
+                    checked={availabilityFilter === "inStock"}
+                    onChange={() =>
+                      setAvailabilityFilter(
+                        availabilityFilter === "inStock" ? null : "inStock"
+                      )
+                    }
+                  />
                   In Stock
                 </label>
 
                 <label className="flex items-center gap-3">
-                  <input type="checkbox" className="accent-[#345246]" />
+                  <input
+                    type="checkbox"
+                    className="accent-[#345246]"
+                    checked={availabilityFilter === "outOfStock"}
+                    onChange={() =>
+                      setAvailabilityFilter(
+                        availabilityFilter === "outOfStock" ? null : "outOfStock"
+                      )
+                    }
+                  />
                   Out Of Stock
                 </label>
               </div>
@@ -122,22 +183,42 @@ const Products = () => {
 
               <div className="space-y-3">
                 <label className="flex items-center gap-3">
-                  <input type="radio" name="budget" />
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={budgetFilter === "0-500"}
+                    onChange={() => setBudgetFilter("0-500")}
+                  />
                   ₹0 - ₹500
                 </label>
 
                 <label className="flex items-center gap-3">
-                  <input type="radio" name="budget" />
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={budgetFilter === "501-1000"}
+                    onChange={() => setBudgetFilter("501-1000")}
+                  />
                   ₹501 - ₹1000
                 </label>
 
                 <label className="flex items-center gap-3">
-                  <input type="radio" name="budget" />
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={budgetFilter === "1001-5000"}
+                    onChange={() => setBudgetFilter("1001-5000")}
+                  />
                   ₹1001 - ₹5000
                 </label>
 
                 <label className="flex items-center gap-3">
-                  <input type="radio" name="budget" />
+                  <input
+                    type="radio"
+                    name="budget"
+                    checked={budgetFilter === "5000+"}
+                    onChange={() => setBudgetFilter("5000+")}
+                  />
                   ₹5000+
                 </label>
               </div>
@@ -145,6 +226,10 @@ const Products = () => {
 
             {/* Clear Filters */}
             <button
+              onClick={() => {
+                setAvailabilityFilter(null);
+                setBudgetFilter(null);
+              }}
               className="
                   mt-8
                   w-full
@@ -166,7 +251,7 @@ const Products = () => {
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-md font-semibold text-gray-600">
-              Showing {products.length} Products
+              Showing {filteredProducts.length} Products
             </h2>
 
             <select className="bg-[#F8FAF9] border border-gray-200 rounded-xl px-4 py-2 outline-none">
@@ -178,17 +263,13 @@ const Products = () => {
           </div>
 
           {/* Product Grid */}
-          {products.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <div
               className="
       flex
       justify-center
       pt-12
-      w-full
-   
-    
-    
-      
+      w-full 
     "
             >
               <div className="bg-white rounded-3xl p-10 text-center shadow-sm max-w-md">
@@ -217,8 +298,14 @@ const Products = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  subCategory={activeFilter}
+                  wishlistItems={wishlistItems}
+                  setWishlistItems={setWishlistItems}
+                />
               ))}
             </div>
           )}

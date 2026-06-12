@@ -40,7 +40,7 @@ const CategoriesSection = ({ activeCategory, setActiveCategory, featuredProducts
         />
       </div>
 
-      <div className="mt-12">
+      <div id="featured" className="mt-12">
         <p className="text-[#1f312a] font-semibold tracking-tighter leading-tight text-2xl md:text-3xl lg:text-3.5xl">
           Featured Rentals
         </p>
@@ -52,7 +52,12 @@ const CategoriesSection = ({ activeCategory, setActiveCategory, featuredProducts
       <div className="mt-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {featuredProducts.map((product) => (
-            <ProductCard key={product._id} product={product} wishlistItems={wishlistItems} />
+            <ProductCard 
+            key={product._id} 
+            product={product} 
+            wishlistItems={wishlistItems}
+            setWishlistItems={setWishlistItems}
+             />
           ))}
         </div>
       </div>

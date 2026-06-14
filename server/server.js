@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://rent-ease-furniture-and-appliance-rental-platform-3boujqs68.vercel.app",
+      "https://rent-ease-furniture-and-appliance-r.vercel.app",
     ],
     credentials: true,
   })

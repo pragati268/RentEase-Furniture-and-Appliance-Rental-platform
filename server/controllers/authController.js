@@ -4,11 +4,11 @@ import dotenv from "dotenv";
 
 import generateToken from "../utils/generateToken.js";
 import userModel from "../models/user-model.js";
-import ownerModel from "../models/owner-model.js";
+
 import userValidateSchema from "../validators/userValidator.js";
-import ownerValidateSchema from "../validators/ownerValidator.js";
 
 dotenv.config();
+
 export const registerUser = async (req, res) => {
   try {
     if (!req.body) {
@@ -35,11 +35,16 @@ export const registerUser = async (req, res) => {
           let user = await userModel.create({
             fullname,
             email,
-            password: hash
+            password: hash,
           });
 
           let token = generateToken(user);
-          res.cookie("token", token);
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+          });
           res.status(201).send("User registered successfully");
         }
       });
@@ -65,13 +70,17 @@ export const loginUser = async (req, res) => {
     }
 
     const token = generateToken(user);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     res.status(200).json({
       message: "Login successful",
       role: user.role,
     });
-
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -79,7 +88,12 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
     res.status(200).send("User logged out successfully");
     res.render("home");
   } catch (err) {
@@ -113,7 +127,12 @@ export const registerAdmin = async (req, res) => {
     });
 
     const token = generateToken(admin);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     res.status(201).send("Admin registered successfully");
   } catch (err) {

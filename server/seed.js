@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import connectDB from "./config/db.js";
 import productModel from "./models/product-model.js";
+
 
 const products = [
   // ===== FURNITURE - Sofas =====
@@ -45,7 +47,7 @@ const products = [
     name: "King Size Bed with Hydraulic Storage",
     description: "Premium king size bed with hydraulic storage lift",
     price: 49999, pricePerDay: 160, pricePerMonth: 1799, securityDeposit: 4500,
-    image: "https://images.unsplash.com/photo-1616627547584-bf28cee262db",
+    image: "https://images.unsplash.com/photo-1612645213559-6af1d4edeaf8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fEtpbmclMjBTaXplJTIwQmVkJTIwd2l0aCUyMEh5ZHJhdWxpYyUyMFN0b3JhZ2V8ZW58MHx8MHx8fDA%3D",
     images: ["https://images.unsplash.com/photo-1616627547584-bf28cee262db"],
     category: "Furniture", subCategory: "Beds", stock: 2, city: "Delhi", featured: true, ratings: 4.8, numOfReviews: 18,
     material: "Solid Sheesham Wood", color: "Honey Finish", dimensions: "210 x 200 x 95 cm", brand: "Durian", weight: "85 kg"
@@ -515,8 +517,7 @@ const products = [
 
 async function seed() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/rentease");
-    console.log("Connected to MongoDB");
+    await connectDB();
 
     await productModel.deleteMany({});
     console.log("Cleared existing products");

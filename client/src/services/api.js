@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000/api',
-    withCredentials: true, // Include cookies in requests
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 export const addToWishlist = async (productId) => {

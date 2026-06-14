@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://localhost:27017/rentease");
-
 const addressSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   phone: { type: Number, required: true },

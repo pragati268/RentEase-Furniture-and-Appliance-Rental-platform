@@ -81,7 +81,7 @@ const Navbar = ({ compact = false }) => {
         {compact && (
           <div className="hidden lg:flex items-center gap-5">
             <Link to="/" className="text-gray-200 hover:text-white transition-colors duration-300">Home</Link>
-            <Link to="/about" className="text-gray-200 hover:text-white transition-colors duration-300">About</Link>
+            <Link to="/" className="text-gray-200 hover:text-white transition-colors duration-300">About</Link>
           </div>
         )}
 

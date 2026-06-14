@@ -7,8 +7,32 @@ import { toast } from "react-toastify";
 const categories = ["Furniture", "Appliance"];
 
 const subCategories = {
-  Furniture: ["Sofa", "Chair", "Bed", "Wardrobe", "Study Table"],
-  Appliance: ["TV", "Refrigerator", "Washing Machine", "Microwave", "AC"],
+  Furniture: [
+    "Sofas",
+    "Beds",
+    "Mattresses",
+    "Wardrobes",
+    "Chairs",
+    "Study Tables",
+    "Dining Tables",
+    "Coffee Tables",
+    "Bookshelves",
+    "Drawers",
+    "Dressing Tables",
+    "Side Tables",
+    "Recliners",
+  ],
+  Appliance: [
+    "TV Units",
+    "Refrigerators",
+    "Washing Machines",
+    "Microwaves",
+    "Air Conditioners",
+    "Water Purifiers",
+    "Geysers",
+    "Air Coolers",
+    "Air Purifiers",
+  ],
 };
 
 const AdminAddProduct = () => {
@@ -19,7 +43,7 @@ const AdminAddProduct = () => {
   const [form, setForm] = useState({
     name: "",
     category: "Furniture",
-    subCategory: "Sofa",
+    subCategory: "",
     description: "",
     pricePerMonth: "",
     securityDeposit: "",
@@ -50,7 +74,13 @@ const AdminAddProduct = () => {
   }, [id]);
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "category" && { subCategory: "" }),
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -81,7 +111,9 @@ const AdminAddProduct = () => {
       }
       navigate("/admin/products");
     } catch {
-      toast.error(isEdit ? "Failed to update product" : "Failed to create product");
+      toast.error(
+        isEdit ? "Failed to update product" : "Failed to create product",
+      );
     }
   };
 
@@ -98,9 +130,14 @@ const AdminAddProduct = () => {
         {isEdit ? "Edit Product" : "Add Product"}
       </h1>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl p-5 shadow-sm space-y-5">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl p-5 shadow-sm space-y-5"
+      >
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Product Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Product Name
+          </label>
           <input
             type="text"
             name="name"
@@ -112,38 +149,53 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Category</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Category
+          </label>
           <select
             name="category"
             value={form.category}
             onChange={(e) => {
               handleChange(e);
-              setForm((prev) => ({ ...prev, subCategory: subCategories[e.target.value]?.[0] || "" }));
+              setForm((prev) => ({
+                ...prev,
+                subCategory: subCategories[e.target.value]?.[0] || "",
+              }));
             }}
             className="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#345246] text-sm"
           >
             {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Sub Category</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Sub Category
+          </label>
           <select
             name="subCategory"
             value={form.subCategory}
             onChange={handleChange}
             className="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#345246] text-sm"
           >
+            <option value="">Select Sub Category</option>
+
             {(subCategories[form.category] || []).map((sub) => (
-              <option key={sub} value={sub}>{sub}</option>
+              <option key={sub} value={sub}>
+                {sub}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">City</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            City
+          </label>
           <input
             type="text"
             name="city"
@@ -155,7 +207,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Monthly Rent (₹)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Monthly Rent (₹)
+          </label>
           <input
             type="number"
             name="pricePerMonth"
@@ -168,7 +222,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Security Deposit (₹)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Security Deposit (₹)
+          </label>
           <input
             type="number"
             name="securityDeposit"
@@ -181,7 +237,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Stock</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Stock
+          </label>
           <input
             type="number"
             name="stock"
@@ -194,7 +252,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Thumbnail Image URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Thumbnail Image URL
+          </label>
           <input
             type="text"
             name="image"
@@ -206,7 +266,9 @@ const AdminAddProduct = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Description
+          </label>
           <textarea
             name="description"
             value={form.description}

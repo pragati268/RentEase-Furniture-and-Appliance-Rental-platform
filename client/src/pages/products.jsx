@@ -80,22 +80,23 @@ const Products = () => {
     "Study Tables",
     "Dining Tables",
     "Coffee Tables",
-    "TV Units",
     "Bookshelves",
     "Drawers",
-    "Dressers",
+    "Dressing Tables",
     "Side Tables",
     "Recliners",
   ];
 
   const applianceFilters = [
     "All",
-    "TVs",
+    "TV Units",
     "Refrigerators",
     "Washing Machines",
-    "Air Conditioners",
     "Microwaves",
+    "Air Conditioners",
     "Water Purifiers",
+    "Geysers",
+    "Air Coolers",
     "Air Purifiers",
   ];
 

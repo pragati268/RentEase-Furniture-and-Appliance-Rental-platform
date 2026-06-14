@@ -53,7 +53,7 @@ const AdminProducts = () => {
               <img
                 src={product.images?.[0] || "/placeholder.svg"}
                 alt={product.name}
-                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                className="w-20 h-20 rounded-lg object-cover shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[#1f312a] truncate">{product.name}</h3>

@@ -6,7 +6,7 @@ import { isAdmin } from "../middlewares/isAdmin.js";
 import { isLoggedIn } from "../middlewares/isLoggedIn.js";
 
 router.post("/create",isLoggedIn, isAdmin, createProduct);
-router.get("/", isLoggedIn, getAllProducts);
+router.get("/", getAllProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/subCategory", getProductsBySubCategory);
 router.get("/:id", getProductById);

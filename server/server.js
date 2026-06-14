@@ -10,12 +10,15 @@ connectDB();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173"
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://rent-ease-furniture-and-appliance-rental-platform-3boujqs68.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 
 import cookieParser from "cookie-parser";
